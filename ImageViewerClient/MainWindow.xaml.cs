@@ -13,9 +13,6 @@ using VideoOS.Platform.UI;
 
 namespace ImageViewerClient
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private static readonly Guid IntegrationId = new Guid("15B6ACBB-E1B6-4360-86B3-78445C56684D");
@@ -89,7 +86,6 @@ namespace ImageViewerClient
             Configuration.Instance.ServerFQID.ServerId.UserContext.SetPrivacyMaskLifted(!Configuration.Instance.ServerFQID.ServerId.UserContext.PrivacyMaskLifted);
         }
 
-        #region Select camera and setup controls
         private void SetupControls()
         {
             _imageViewerControl.Disconnect();
@@ -234,11 +230,7 @@ namespace ImageViewerClient
                     _imageViewerControl.StreamId = selectStream.Id;
                     _imageViewerControl.Connect();
             }
-        }
-
-        #endregion
-
-        #region Mode 
+        } 
         private void _liveRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             _playbackUserControl.SetEnabled(false);
@@ -259,9 +251,7 @@ namespace ImageViewerClient
         {
             EnablePlayback();
         }
-        #endregion
 
-        #region Image Viewer properties
         private void _digitalZoomCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _imageViewerControl.EnableDigitalZoom = _digitalZoomCheckBox.IsChecked.Value;
@@ -292,11 +282,6 @@ namespace ImageViewerClient
             _imageViewerControl.EnableVisibleTimestamp = _visibleTimeStampCheckBox.IsChecked.Value;
         }
 
-        /// <summary>
-        /// If Adaptive Streaming is checked, the stream resolution will be adapted based on the view size.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void _adaptiveStreamingCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (_updatingStreamsFromCode || _imageViewerControl == null || _imageViewerControl.CameraFQID == null)
@@ -320,25 +305,19 @@ namespace ImageViewerClient
                 _imageViewerControl.Connect();
             }
         }
-        #endregion
 
-        #region Image Viewer Environment properties
+
         private void _diagnosticsCheckBox_Click(object sender, RoutedEventArgs e)
         {
             EnvironmentManager.Instance.EnvironmentOptions["PlayerDiagnosticLevel"] = _diagnosticsCheckBox.IsChecked.Value ? "3" : "0";
             EnvironmentManager.Instance.FireEnvironmentOptionsChangedEvent();
         }
 
-        #endregion
-
-        #region Plackback Controller properties
         private void _checkAllRadioButtonsChecked(object sender, RoutedEventArgs e)
         {
             SetPlaybackSkipMode();
         }
-        #endregion
 
-        #region Playback User Control properties
         private void _showTallCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _playbackUserControl.ShowTallUserControl = _showTallCheckBox.IsChecked.Value;
@@ -353,9 +332,7 @@ namespace ImageViewerClient
         {
             _playbackUserControl.ShowTimeSpanControl = _showTimeSpanCheckBox.IsChecked.Value;
         }
-        #endregion
 
-        #region Direct Playback Commands(Playback Controller via message communication direct) 
         private void _stopButton_Click(object sender, RoutedEventArgs e)
         {
             EnvironmentManager.Instance.SendMessage(new VideoOS.Platform.Messaging.Message(
@@ -371,7 +348,6 @@ namespace ImageViewerClient
 
         }
 
-        //WPF doesn't have Datetime picker, use winform for temporary solution
         private void _dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
             EnvironmentManager.Instance.SendMessage(new VideoOS.Platform.Messaging.Message(
@@ -381,9 +357,7 @@ namespace ImageViewerClient
                                                         MessageId.SmartClient.PlaybackCommand,
                                                         new PlaybackCommandData() { Command = PlaybackData.Goto, DateTime = _dateTimePicker.Value.ToUniversalTime() }), _playbackFQID);
         }
-        #endregion
 
-        #region Commands to Playback Controller
         private void _maxForwardSpeedButton_Click(object sender, RoutedEventArgs e)
         {
             if (_playbackFQID != null)
@@ -402,10 +376,6 @@ namespace ImageViewerClient
                 _playbackUserControl.TimeSpan = new TimeSpan(28, 0, 0, 0);
             }
         }
-        #endregion
-
-        #region Get the IP
-
 
         private void _IpButton_Click(object sender, RoutedEventArgs e)
         {
@@ -422,9 +392,7 @@ namespace ImageViewerClient
                 _mc.RegisterCommunicationFilter(IPAddressResponseHandler, new CommunicationIdFilter(MessageId.Server.GetIPAddressResponse));
             }
         }
-        #endregion
 
-        #region helper method
         private void SetPlaybackSkipMode()
         {
             if (_skipRadioButton.IsChecked.Value)
@@ -453,7 +421,6 @@ namespace ImageViewerClient
             _offlineScpButton.Visibility = Visibility.Collapsed;
             _selectCameraButton.Visibility = Visibility.Visible;
         }
-        #endregion
 
         private void _loginButton_Click(object sender, RoutedEventArgs e)
         {

@@ -2,9 +2,6 @@
 
 namespace ImageViewerClient
 {
-    /// <summary>
-    /// Interaction logic for PasswordForm.xaml
-    /// </summary>
     public partial class PasswordForm : Window
     {
         public PasswordForm()
