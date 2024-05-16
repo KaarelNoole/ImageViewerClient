@@ -2,9 +2,9 @@
 
 namespace ImageViewerClient
 {
-    public partial class PasswordForm : Window
+    public partial class PasswordWindow : Window
     {
-        public PasswordForm()
+        public PasswordWindow()
         {
             InitializeComponent();
         }

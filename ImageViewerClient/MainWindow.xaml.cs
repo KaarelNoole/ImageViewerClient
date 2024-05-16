@@ -465,7 +465,7 @@ namespace ImageViewerClient
                     }
                     catch (NotAuthorizedMIPException)
                     {
-                        PasswordForm form = new PasswordForm();
+                        PasswordWindow form = new PasswordWindow();
                         if ((bool)form.ShowDialog())
                         {
                             password = form.Password;
