@@ -16,7 +16,7 @@ namespace ImageViewerClient
     public partial class MainWindow : Window
     {
         private static readonly Guid IntegrationId = new Guid("15B6ACBB-E1B6-4360-86B3-78445C56684D");
-        private const string IntegrationName = "Playback WPF User";
+        private const string IntegrationName = "ImageViewerClient";
         private const string Version = "1.0";
         private const string ManufacturerName = "Sample Manufacturer";
 
@@ -107,14 +107,14 @@ namespace ImageViewerClient
 
         private void _selectCameraButton_Click(object sender, RoutedEventArgs e)
         {
-            var form2 = new ItemPickerWpfWindow()
+            var secondWindow = new ItemPickerWpfWindow()
             {
                 Items = Configuration.Instance.GetItems(),
                 KindsFilter = new List<Guid>() { Kind.Camera }
             };
-            if (form2.ShowDialog().Value)
+            if (secondWindow.ShowDialog().Value)
             {
-                var items = form2.SelectedItems;
+                var items = secondWindow.SelectedItems;
                 if (items != null && items.Any())
                 {
                     SetupControls();
@@ -214,7 +214,7 @@ namespace ImageViewerClient
                 _playbackUserControl.Visibility = Visibility.Visible;
                 _playbackUserControl.SetEnabled(true);
                 EnvironmentManager.Instance.SendMessage(new VideoOS.Platform.Messaging.Message(
-                                                            VideoOS.Platform.Messaging.MessageId.System.ModeChangeCommand,
+                                                            MessageId.System.ModeChangeCommand,
                                                             Mode.ClientPlayback), _playbackFQID);
                 _playbackCommandsStackPanel.Visibility = Visibility.Visible;
             }
@@ -424,12 +424,12 @@ namespace ImageViewerClient
 
         private void _loginButton_Click(object sender, RoutedEventArgs e)
         {
-            var loginForm = new DialogLoginForm(SetLoginResult, IntegrationId, IntegrationName, Version, ManufacturerName);
-            loginForm.ShowDialog();
+            var loginWindow = new DialogLoginForm(SetLoginResult, IntegrationId, IntegrationName, Version, ManufacturerName);
+            loginWindow.ShowDialog();
             if (Connected)
             {
                 _runningOffline = false;
-                loginForm.Close();
+                loginWindow.Close();
                 showSelectCameraButton();
                 SetupControls();
             }
@@ -465,10 +465,10 @@ namespace ImageViewerClient
                     }
                     catch (NotAuthorizedMIPException)
                     {
-                        PasswordWindow form = new PasswordWindow();
-                        if ((bool)form.ShowDialog())
+                        PasswordWindow window = new PasswordWindow();
+                        if ((bool)window.ShowDialog())
                         {
-                            password = form.Password;
+                            password = window.Password;
                         }
                         else
                         {
