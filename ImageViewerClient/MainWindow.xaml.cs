@@ -18,7 +18,7 @@ namespace ImageViewerClient
         private static readonly Guid IntegrationId = new Guid("15B6ACBB-E1B6-4360-86B3-78445C56684D");
         private const string IntegrationName = "ImageViewerClient";
         private const string Version = "1.0";
-        private const string ManufacturerName = "Sample Manufacturer";
+        private const string ManufacturerName = " Manufacturer";
 
         private IList<DataType> _streams;
         private FQID _playbackFQID;
